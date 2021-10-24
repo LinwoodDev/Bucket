@@ -1,5 +1,6 @@
 package dev.linwood.bucketsystem.api;
 
 public interface IdentifiableObject {
-    String getIdentifier();
+    String getSlug();
+    int getId();
 }

@@ -7,21 +7,15 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class BucketAsset implements IdentifiableObject {
     private final Bucket parent;
-    private String name, description, identifier;
+    private final int id;
+    private String name, description, slug;
     private List<BucketUser> maintainers;
     private List<BucketUser> owners;
 
-    BucketAsset(Bucket parent, String identifier) {
-        this.identifier = identifier;
+    BucketAsset(Bucket parent, String slug, int id) {
+        this.id = id;
+        this.slug = slug;
         this.parent = parent;
-    }
-
-    BucketAsset(BucketAsset old, String newIdentifier) {
-        this(old.getParent(), newIdentifier);
-        name = old.name;
-        description = old.description;
-        maintainers = List.copyOf(old.maintainers);
-        owners = List.copyOf(old.owners);
     }
 
     public String getName() {
@@ -32,8 +26,8 @@ public class BucketAsset implements IdentifiableObject {
         return description;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getSlug() {
+        return slug;
     }
 
     public List<BucketUser> getMaintainers() {
@@ -41,7 +35,12 @@ public class BucketAsset implements IdentifiableObject {
     }
 
     public List<String> getMaintainersIdentifier() {
-        return maintainers.stream().map(BucketUser::getIdentifier).toList();
+        return maintainers.stream().map(BucketUser::getSlug).toList();
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     public List<BucketUser> getOwners() {
@@ -49,7 +48,7 @@ public class BucketAsset implements IdentifiableObject {
     }
 
     public List<String> getOwnersIdentifier() {
-        return owners.stream().map(BucketUser::getIdentifier).toList();
+        return owners.stream().map(BucketUser::getSlug).toList();
     }
 
     public Bucket getParent() {
@@ -69,15 +68,15 @@ public class BucketAsset implements IdentifiableObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BucketAsset that = (BucketAsset) o;
-        return identifier.equals(that.identifier);
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(identifier);
+        return Objects.hash(slug);
     }
 
-    void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }

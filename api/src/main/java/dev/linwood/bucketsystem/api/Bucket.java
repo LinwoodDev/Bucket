@@ -11,30 +11,26 @@ public class Bucket {
     private final Set<BucketAsset> assets = new HashSet<>();
     private final Set<BucketUser> users = new HashSet<>();
 
-
-
     @Nullable
-    public BucketAsset registerAsset(String identifier) {
-        var asset = new BucketAsset(this, identifier);
+    public BucketAsset registerAsset(String slug, int id) {
+        var asset = new BucketAsset(this, slug, id);
         if(!assets.add(asset))
             return null;
         return asset;
     }
 
     @Nullable
-    public BucketAsset getAsset(String identifier) {
-        return assets.stream().filter(bucketAsset -> bucketAsset.getIdentifier().equals(identifier)).findFirst().orElse(null);
+    public BucketAsset getAsset(String slug) {
+        return assets.stream().filter(bucketAsset -> bucketAsset.getSlug().equals(slug)).findFirst().orElse(null);
     }
 
-    public boolean renameAsset(String identifier, String newIdentifier) {
-        var asset = assets.stream().filter(bucketAsset -> bucketAsset.getIdentifier().equals(identifier)).findFirst().orElse(null);
-        if(asset == null)return false;
-        asset.setIdentifier(newIdentifier);
-        return true;
+    @Nullable
+    public BucketAsset getAsset(int id) {
+        return assets.stream().filter(bucketAsset -> bucketAsset.getId() == id).findFirst().orElse(null);
     }
 
-    public boolean unregisterAsset(String identifier) {
-        return assets.removeIf(bucketAsset -> bucketAsset.getIdentifier().equals(identifier));
+    public boolean unregisterAsset(String slug) {
+        return assets.removeIf(bucketAsset -> bucketAsset.getSlug().equals(slug));
     }
 
     public Set<BucketAsset> getAssets() {
@@ -42,20 +38,25 @@ public class Bucket {
     }
 
     @Nullable
-    public BucketUser registerUser(String identifier) {
-        var asset = new BucketUser(this, identifier);
+    public BucketUser registerUser(String slug, int id) {
+        var asset = new BucketUser(this, slug, id);
         if(!users.add(asset))
             return null;
         return asset;
     }
 
     @Nullable
-    public BucketUser getUser(String identifier) {
-        return users.stream().filter(bucketUser -> bucketUser.getIdentifier().equals(identifier)).findFirst().orElse(null);
+    public BucketUser getUser(String slug) {
+        return users.stream().filter(bucketUser -> bucketUser.getSlug().equals(slug)).findFirst().orElse(null);
     }
 
-    public boolean unregisterUser(String identifier) {
-        return users.removeIf(bucketUser -> bucketUser.getIdentifier().equals(identifier));
+    @Nullable
+    public BucketUser getUser(int id) {
+        return users.stream().filter(bucketUser -> bucketUser.getId() == id).findFirst().orElse(null);
+    }
+
+    public boolean unregisterUser(String slug) {
+        return users.removeIf(bucketUser -> bucketUser.getSlug().equals(slug));
     }
 
     public Set<BucketUser> getUsers() {

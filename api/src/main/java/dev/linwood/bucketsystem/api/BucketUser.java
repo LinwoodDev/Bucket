@@ -1,20 +1,23 @@
 package dev.linwood.bucketsystem.api;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class BucketUser implements IdentifiableObject {
-    private String name, bio, website, twitter;
-    private final String identifier;
+    private String name, bio = "", slug;
+    @Nullable
+    private String website, twitter;
+    private final int id;
     private final Bucket parent;
     private final Set<BucketAsset> subscribedAssets = new HashSet<>();
 
-    BucketUser(Bucket parent, String identifier) {
+    BucketUser(Bucket parent, String slug, int id) {
+        this.slug = slug;
+        this.name = slug;
         this.parent = parent;
-        this.identifier = identifier;
+        this.id = id;
     }
 
     public Bucket getParent() {
@@ -29,15 +32,25 @@ public class BucketUser implements IdentifiableObject {
         return bio;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    @Override
+    public String getSlug() {
+        return slug;
     }
 
-    public String getTwitter() {
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    public @Nullable String getTwitter() {
         return twitter;
     }
 
-    public String getWebsite() {
+    public @Nullable String getWebsite() {
         return website;
     }
 
@@ -49,11 +62,11 @@ public class BucketUser implements IdentifiableObject {
         this.name = name;
     }
 
-    public void setTwitter(String twitter) {
+    public void setTwitter(@Nullable String twitter) {
         this.twitter = twitter;
     }
 
-    public void setWebsite(String website) {
+    public void setWebsite(@Nullable String website) {
         this.website = website;
     }
 
@@ -70,7 +83,7 @@ public class BucketUser implements IdentifiableObject {
     }
 
     public boolean subscribe(BucketAsset asset) {
-        return subscribe(asset.getIdentifier());
+        return subscribe(asset.getSlug());
     }
 
     public boolean subscribe(String identifier) {
@@ -81,7 +94,7 @@ public class BucketUser implements IdentifiableObject {
     }
 
     public boolean unsubscribe(BucketAsset asset) {
-        return unsubscribe(asset.getIdentifier());
+        return unsubscribe(asset.getSlug());
     }
 
     public boolean unsubscribe(String identifier) {
@@ -89,5 +102,18 @@ public class BucketUser implements IdentifiableObject {
         if (asset != null)
             return subscribedAssets.remove(asset);
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BucketUser that = (BucketUser) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
