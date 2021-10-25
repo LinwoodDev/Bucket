@@ -32,6 +32,9 @@ public class Bucket {
     public boolean unregisterAsset(String slug) {
         return assets.removeIf(bucketAsset -> bucketAsset.getSlug().equals(slug));
     }
+    public boolean unregisterAsset(int id) {
+        return assets.removeIf(bucketAsset -> bucketAsset.getId() == id);
+    }
 
     public Set<BucketAsset> getAssets() {
         return Collections.unmodifiableSet(assets);
@@ -57,6 +60,10 @@ public class Bucket {
 
     public boolean unregisterUser(String slug) {
         return users.removeIf(bucketUser -> bucketUser.getSlug().equals(slug));
+    }
+
+    public boolean unregisterUser(int id) {
+        return users.removeIf(bucketUser -> bucketUser.getId() == id);
     }
 
     public Set<BucketUser> getUsers() {

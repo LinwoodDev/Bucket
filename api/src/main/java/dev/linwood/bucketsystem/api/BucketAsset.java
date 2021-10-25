@@ -1,5 +1,8 @@
 package dev.linwood.bucketsystem.api;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -8,25 +11,26 @@ import java.util.Objects;
 public class BucketAsset implements IdentifiableObject {
     private final Bucket parent;
     private final int id;
-    private String name, description, slug;
-    private List<BucketUser> maintainers;
-    private List<BucketUser> owners;
+    private @NotNull String name, description = "", slug;
+    private final List<BucketUser> maintainers = new ArrayList<>();
+    private final List<BucketUser> owners = new ArrayList<>();
 
-    BucketAsset(Bucket parent, String slug, int id) {
+    BucketAsset(Bucket parent, @NotNull String slug, int id) {
         this.id = id;
         this.slug = slug;
+        name = slug;
         this.parent = parent;
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
-    public String getDescription() {
+    public @NotNull String getDescription() {
         return description;
     }
 
-    public String getSlug() {
+    public @NotNull String getSlug() {
         return slug;
     }
 
@@ -55,11 +59,11 @@ public class BucketAsset implements IdentifiableObject {
         return parent;
     }
 
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@NotNull String description) {
         this.description = description;
     }
 
@@ -76,7 +80,10 @@ public class BucketAsset implements IdentifiableObject {
         return Objects.hash(slug);
     }
 
-    public void setSlug(String slug) {
+    public boolean setSlug(@NotNull String slug) {
+        if(parent.getAsset(slug) != null)
+            return false;
         this.slug = slug;
+        return true;
     }
 }
