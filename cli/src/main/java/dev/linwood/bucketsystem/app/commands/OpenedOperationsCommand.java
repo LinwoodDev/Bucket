@@ -7,17 +7,17 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-@CommandLine.Command(name = "opened", description = "List all opened operations")
+@CommandLine.Command (name = "opened", description = "List all opened operations")
 public class OpenedOperationsCommand implements Runnable {
-    @CommandLine.Parameters(index = "0", description = "Token")
+    @CommandLine.Option (names = {"--token", "-t"}, description = "Token")
     private String token;
-    @CommandLine.Parameters(index = "1", description = "Repository url")
+    @CommandLine.Option (names = {"--url", "-u"}, description = "Repository url")
     private URL repositoryUrl;
-    @CommandLine.Parameters(index = "2", description = "Force provider", defaultValue = CommandLine.Parameters.NULL_VALUE)
+    @CommandLine.Option (names = {"--provider", "-p"}, description = "Force provider", defaultValue = CommandLine.Parameters.NULL_VALUE)
     private String forceProvider;
+
     @Override
     public void run() {
-        System.out.print("Loading...");
         var provider = BucketProvider.getProviderByURL(repositoryUrl, token, forceProvider);
         assert provider != null;
         List<Integer> operations = null;
@@ -28,6 +28,6 @@ public class OpenedOperationsCommand implements Runnable {
         }
         assert operations != null;
         System.out.println("Opened operations:");
-        operations.forEach(System.out::println);
+        System.out.println(String.join(", ", operations.stream().map(String::valueOf).toArray(String[]::new)));
     }
 }

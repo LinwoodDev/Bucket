@@ -37,7 +37,7 @@ public class GitHubBindings implements BucketBindings {
             uri = new URI(
                     "https",
                     "api." + repositoryURL.getHost(),
-                    "repos/" + repositoryURL.getPath() + "/issues/",
+                    "/repos/" + repositoryURL.getPath() + "/issues/",
                     null
             );
         } catch (URISyntaxException e) {
@@ -65,7 +65,7 @@ public class GitHubBindings implements BucketBindings {
             uri = new URI(
                     "https",
                     "api." + repositoryURL.getHost(),
-                    "repos/" + repositoryURL.getPath() + "/issues",
+                    "/repos/" + repositoryURL.getPath() + "/issues",
                     null
             );
         }
