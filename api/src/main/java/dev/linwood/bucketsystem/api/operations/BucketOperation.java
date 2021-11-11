@@ -22,6 +22,15 @@ public abstract class BucketOperation {
         return null;
     }
 
+    public static BucketOperation getOperationByBody(int id, String body, boolean approved) {
+        var matcher = DATA_PATTERN.matcher(body);
+        if (matcher.matches()) {
+            var name = matcher.group("data");
+            return getOperationByName(id, name, body, approved);
+        }
+        return null;
+    }
+
     public static BucketOperation getOperationByName(int id, String name, String body, boolean approved) {
         return switch (name.toLowerCase().replace('_', '-')) {
             case "assetcreate", "asset-create" -> new AssetCreateOperation(body, id, approved);

@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'dev.linwood.bucketsystem'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'info.picocli:picocli:4.6.1'
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation project(":providers")
+    implementation project(":api")
+    annotationProcessor 'info.picocli:picocli-codegen:4.6.1'
+}
+compileJava {
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
+}
+
+test {
+    useJUnitPlatform()
+}

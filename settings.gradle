@@ -1,4 +1,5 @@
 rootProject.name = 'BucketSystem'
 include 'api'
-include 'gitlab'
+include 'providers'
+include 'cli'
 
