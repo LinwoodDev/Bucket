@@ -1,6 +1,6 @@
 package dev.linwood.bucketsystem.app.commands;
 
-import dev.linwood.bucketsystem.providers.BucketProvider;
+import providers.BucketProvider;
 import picocli.CommandLine;
 
 import java.net.URL;

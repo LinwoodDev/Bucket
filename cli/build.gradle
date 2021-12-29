@@ -14,7 +14,6 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation 'info.picocli:picocli:4.6.2'
     implementation 'org.jetbrains:annotations:22.0.0'
-    implementation project(":providers")
     implementation project(":api")
     annotationProcessor 'info.picocli:picocli-codegen:4.6.2'
 }

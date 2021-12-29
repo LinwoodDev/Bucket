@@ -1,4 +1,4 @@
-package dev.linwood.bucketsystem.providers;
+package providers;
 
 import dev.linwood.bucketsystem.api.BucketBindings;
 import dev.linwood.bucketsystem.api.operations.BucketOperation;
