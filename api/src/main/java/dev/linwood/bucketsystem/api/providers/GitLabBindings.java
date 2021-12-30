@@ -1,8 +1,12 @@
-package dev.linwood.bucketsystem.providers;
+package dev.linwood.bucketsystem.api.providers;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import dev.linwood.bucketsystem.api.BucketBindings;
 import dev.linwood.bucketsystem.api.operations.BucketOperation;
+import dev.linwood.bucketsystem.api.operations.BucketOperationStatus;
 
 import java.net.URI;
 import java.net.URL;
@@ -15,9 +19,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.StreamSupport;
 
 public class GitLabBindings implements BucketBindings {
+    private static final Gson GSON = new GsonBuilder().create();
     private final String token;
     private final HttpClient httpClient;
-    private static final Gson GSON = new GsonBuilder().create();
     private final URL repositoryURL;
 
     public GitLabBindings(URL repositoryURL, String token) {
@@ -60,10 +64,10 @@ public class GitLabBindings implements BucketBindings {
                 var bodyJson = jsonObject.get("description").getAsString();
                 var operation = GSON.fromJson(bodyJson, JsonObject.class);
                 var labels = operation.getAsJsonArray("labels");
-                return BucketOperation.getOperationByName(operation.get("id").getAsInt(),
-                        operation.get("title").getAsString(),
+                return BucketOperation.getOperationByBody(operation.get("id").getAsInt(),
                         operation.get("description").getAsString(),
-                        labels.contains(new JsonPrimitive("approved")));
+                        operation.getAsJsonObject("author").get("username").getAsString(),
+                        BucketOperationStatus.fromJsonArray(labels));
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
@@ -92,5 +96,20 @@ public class GitLabBindings implements BucketBindings {
             }
             return null;
         });
+    }
+
+    @Override
+    public CompletableFuture<List<Integer>> getOpenedOperationsId(BucketOperationStatus status) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<BucketOperationStatus> getOperationStatus(int id) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Void> setOperationStatus(int id, BucketOperationStatus status) {
+        return null;
     }
 }

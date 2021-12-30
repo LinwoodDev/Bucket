@@ -1,12 +1,13 @@
 package dev.linwood.bucketsystem.api.operations;
 
+import com.google.gson.JsonElement;
 import dev.linwood.bucketsystem.api.Bucket;
 
 public final class AssetRemoveOperation extends BucketOperation {
     private final int assetId;
 
-    public AssetRemoveOperation(String body, int id, boolean approved) {
-        super(id, approved);
+    public AssetRemoveOperation(JsonElement content, String user, int id, BucketOperationStatus status) {
+        super(id, user, status);
         this.assetId = 0;
     }
 

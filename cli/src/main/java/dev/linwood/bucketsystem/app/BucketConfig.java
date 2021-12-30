@@ -18,6 +18,11 @@ public class BucketConfig {
         this.description = description;
     }
 
+    public BucketConfig() {
+        name = "TestBucket";
+        description = "This is a test bucket";
+    }
+
     public BucketConfig(JsonObject json) {
         name = json.get("name").getAsString();
         description = json.get("description").getAsString();

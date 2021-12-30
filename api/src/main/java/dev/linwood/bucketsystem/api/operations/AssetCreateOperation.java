@@ -1,13 +1,15 @@
 package dev.linwood.bucketsystem.api.operations;
 
+import com.google.gson.JsonElement;
 import dev.linwood.bucketsystem.api.Bucket;
 
 public final class AssetCreateOperation extends BucketOperation {
     private final String slug, name, description;
 
-    public AssetCreateOperation(String body, int id, boolean approved) {
-        super(id, approved);
-        slug = ""; name = "";
+    public AssetCreateOperation(JsonElement content, String user, int id, BucketOperationStatus status) {
+        super(id, user, status);
+        slug = "";
+        name = "";
         description = "";
     }
 
@@ -21,8 +23,8 @@ public final class AssetCreateOperation extends BucketOperation {
 
     @Override
     public boolean apply(Bucket bucket) {
-        var asset = bucket.registerAsset(slug, getId());
-        if(asset == null)
+        var asset = bucket.registerAsset(getUser(), slug, getId());
+        if (asset == null)
             return false;
         asset.setDescription(description);
         asset.setName(name);

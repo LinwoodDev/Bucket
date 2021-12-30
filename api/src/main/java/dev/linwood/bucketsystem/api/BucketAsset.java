@@ -2,21 +2,19 @@ package dev.linwood.bucketsystem.api;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class BucketAsset implements IdentifiableObject {
     private final Bucket parent;
     private final int id;
+    private final Set<BucketUser> maintainers = new HashSet<>();
+    private final BucketUser owner;
     private @NotNull String name, description = "", slug;
-    private final List<BucketUser> maintainers = new ArrayList<>();
-    private final List<BucketUser> owners = new ArrayList<>();
 
-    BucketAsset(Bucket parent, @NotNull String slug, int id) {
+    BucketAsset(Bucket parent, @NotNull BucketUser owner, @NotNull String slug, int id) {
         this.id = id;
+        this.owner = owner;
         this.slug = slug;
         name = slug;
         this.parent = parent;
@@ -26,45 +24,63 @@ public class BucketAsset implements IdentifiableObject {
         return name;
     }
 
+    public void setName(@NotNull String name) {
+        this.name = name;
+    }
+
     public @NotNull String getDescription() {
         return description;
+    }
+
+    public void setDescription(@NotNull String description) {
+        this.description = description;
     }
 
     public @NotNull String getSlug() {
         return slug;
     }
 
-    public List<BucketUser> getMaintainers() {
-        return Collections.unmodifiableList(maintainers);
+    public Set<BucketUser> getMaintainers() {
+        return Collections.unmodifiableSet(maintainers);
     }
+
+    public boolean registerMaintainer(BucketUser user) {
+        return registerMaintainer(user.getSlug());
+    }
+
+    public boolean registerMaintainer(String identifier) {
+        return maintainers.add(parent.getUser(identifier));
+    }
+
+    public boolean unregisterMaintainer(BucketUser user) {
+        return unregisterMaintainer(user.getSlug());
+    }
+
+    public boolean unregisterMaintainer(String identifier) {
+        return maintainers.remove(parent.getUser(identifier));
+    }
+
 
     public List<String> getMaintainersIdentifier() {
         return maintainers.stream().map(BucketUser::getSlug).toList();
     }
+
 
     @Override
     public int getId() {
         return id;
     }
 
-    public List<BucketUser> getOwners() {
-        return Collections.unmodifiableList(owners);
+    public BucketUser getOwner() {
+        return owner;
     }
 
-    public List<String> getOwnersIdentifier() {
-        return owners.stream().map(BucketUser::getSlug).toList();
+    public String getOwnerIdentifier() {
+        return owner.getSlug();
     }
 
     public Bucket getParent() {
         return parent;
-    }
-
-    public void setName(@NotNull String name) {
-        this.name = name;
-    }
-
-    public void setDescription(@NotNull String description) {
-        this.description = description;
     }
 
     @Override
@@ -81,7 +97,7 @@ public class BucketAsset implements IdentifiableObject {
     }
 
     public boolean setSlug(@NotNull String slug) {
-        if(parent.getAsset(slug) != null)
+        if (parent.getAsset(slug) != null)
             return false;
         this.slug = slug;
         return true;

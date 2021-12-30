@@ -13,9 +13,12 @@ public class Bucket {
     private final Set<String> tags = new HashSet<>();
 
     @Nullable
-    public BucketAsset registerAsset(String slug, int id) {
-        var asset = new BucketAsset(this, slug, id);
-        if(!assets.add(asset))
+    public BucketAsset registerAsset(String owner, String slug, int id) {
+        var user = getUser(owner);
+        if (user == null)
+            return null;
+        var asset = new BucketAsset(this, user, slug, id);
+        if (!assets.add(asset))
             return null;
         return asset;
     }
@@ -33,6 +36,7 @@ public class Bucket {
     public boolean unregisterAsset(String slug) {
         return assets.removeIf(bucketAsset -> bucketAsset.getSlug().equals(slug));
     }
+
     public boolean unregisterAsset(int id) {
         return assets.removeIf(bucketAsset -> bucketAsset.getId() == id);
     }
@@ -44,7 +48,7 @@ public class Bucket {
     @Nullable
     public BucketUser registerUser(String slug, int id) {
         var asset = new BucketUser(this, slug, id);
-        if(!users.add(asset))
+        if (!users.add(asset))
             return null;
         return asset;
     }

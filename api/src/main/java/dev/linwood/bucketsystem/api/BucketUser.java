@@ -6,12 +6,12 @@ import java.util.*;
 
 @SuppressWarnings("unused")
 public class BucketUser implements IdentifiableObject {
-    private String name, bio = "", slug;
-    @Nullable
-    private String website, twitter;
     private final int id;
     private final Bucket parent;
     private final Set<BucketAsset> subscribedAssets = new HashSet<>();
+    private String name, bio = "", slug;
+    @Nullable
+    private String website, twitter;
 
     BucketUser(Bucket parent, String slug, int id) {
         this.slug = slug;
@@ -28,8 +28,16 @@ public class BucketUser implements IdentifiableObject {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getBio() {
         return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     @Override
@@ -50,20 +58,12 @@ public class BucketUser implements IdentifiableObject {
         return twitter;
     }
 
-    public @Nullable String getWebsite() {
-        return website;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setTwitter(@Nullable String twitter) {
         this.twitter = twitter;
+    }
+
+    public @Nullable String getWebsite() {
+        return website;
     }
 
     public void setWebsite(@Nullable String website) {
@@ -71,7 +71,7 @@ public class BucketUser implements IdentifiableObject {
     }
 
     public List<BucketAsset> getOwningAssets() {
-        return parent.getAssets().stream().filter(bucketAsset -> bucketAsset.getOwners().contains(this)).toList();
+        return parent.getAssets().stream().filter(bucketAsset -> bucketAsset.getOwner().equals(this)).toList();
     }
 
     public List<BucketAsset> getMaintainedAssets() {

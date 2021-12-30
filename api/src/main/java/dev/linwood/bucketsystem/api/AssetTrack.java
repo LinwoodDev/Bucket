@@ -6,8 +6,8 @@ import java.util.Set;
 
 public class AssetTrack {
     private final BucketAsset parent;
-    private String name, slug, description = "";
     private final Set<TrackEntry> entries = new HashSet<>();
+    private String name, slug, description = "";
 
     public AssetTrack(BucketAsset parent, String slug) {
         this.parent = parent;

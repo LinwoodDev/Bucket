@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @CommandLine.Command(name = "clear", description = "Clear the build directory")
-public class ClearCommand implements Runnable {
+public class CreateCommand implements Runnable {
     @Override
     public void run() {
         try {

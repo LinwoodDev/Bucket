@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class TrackEntry {
     private final AssetTrack parent;
-    private String slug, name, description = "", link;
     private final LocalDateTime created;
+    private String slug, name, description = "", link;
     private LocalDateTime updated;
 
     TrackEntry(AssetTrack parent, String slug, String link) {
@@ -24,12 +24,24 @@ public class TrackEntry {
         return slug;
     }
 
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getCreated() {
@@ -38,18 +50,6 @@ public class TrackEntry {
 
     public LocalDateTime getUpdated() {
         return updated;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setUpdated(LocalDateTime updated) {

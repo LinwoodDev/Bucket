@@ -1,5 +1,6 @@
 package dev.linwood.bucketsystem.api.operations;
 
+import com.google.gson.JsonElement;
 import dev.linwood.bucketsystem.api.Bucket;
 import org.jetbrains.annotations.Nullable;
 
@@ -7,8 +8,8 @@ import org.jetbrains.annotations.Nullable;
 public final class AssetEditOperation extends BucketOperation {
     private final @Nullable String name, description, slug;
 
-    public AssetEditOperation(String body, int id, boolean approved) {
-        super(id, approved);
+    public AssetEditOperation(JsonElement content, String user, int id, BucketOperationStatus status) {
+        super(id, user, status);
         name = "";
         description = "";
         slug = "";
