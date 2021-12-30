@@ -10,6 +10,7 @@ import java.util.Set;
 public class Bucket {
     private final Set<BucketAsset> assets = new HashSet<>();
     private final Set<BucketUser> users = new HashSet<>();
+    private final Set<String> tags = new HashSet<>();
 
     @Nullable
     public BucketAsset registerAsset(String slug, int id) {
@@ -68,5 +69,17 @@ public class Bucket {
 
     public Set<BucketUser> getUsers() {
         return Collections.unmodifiableSet(users);
+    }
+
+    public boolean registerTag(String tag) {
+        return tags.add(tag);
+    }
+
+    public boolean unregisterTag(String tag) {
+        return tags.remove(tag);
+    }
+
+    public Set<String> getTags() {
+        return Collections.unmodifiableSet(tags);
     }
 }

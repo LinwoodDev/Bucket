@@ -1,7 +1,6 @@
-package providers;
+package dev.linwood.bucketsystem.providers;
 
 import dev.linwood.bucketsystem.api.BucketBindings;
-import dev.linwood.bucketsystem.api.operations.BucketOperation;
 
 import java.net.URL;
 

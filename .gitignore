@@ -15,3 +15,7 @@ gradle-app.setting
 .vscode
 .idea
 *.iml
+
+# Compiled files
+*.class
+bin

@@ -1,4 +1,4 @@
-package providers;
+package dev.linwood.bucketsystem.providers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

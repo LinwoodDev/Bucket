@@ -1,4 +1,4 @@
-package providers;
+package dev.linwood.bucketsystem.providers;
 
 import com.google.gson.*;
 import dev.linwood.bucketsystem.api.BucketBindings;
