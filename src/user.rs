@@ -1,9 +1,21 @@
 use std::rc::Rc;
-use asset::Asset;
 use crate::asset::Asset;
+use crate::Bucket;
 
 pub struct BucketUser {
     name: String,
-    identifier: String,
-    assets: Vec<Rc<Asset>>,
+}
+
+impl BucketUser {
+    pub fn new(name: String) -> BucketUser {
+        BucketUser {
+            name,
+        }
+    }
+    pub fn name(&self) -> &str {
+        &self.name
+    }
+    pub fn parent(&self) -> &Bucket {
+        &self.parent
+    }
 }
