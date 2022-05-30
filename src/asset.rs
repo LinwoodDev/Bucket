@@ -1,27 +1,33 @@
-struct Asset<'a> {
+use std::rc::Rc;
+use crate::user::BucketUser;
+
+pub struct Asset {
     name: String,
     description: String,
     source: String,
     website: String,
     license: String,
-    tracks: Vec<AssetTrack<'a>>
+    tracks: Vec<AssetTrack>,
+    maintainers: Vec<Rc<BucketUser>>,
 }
 
-struct AssetTrack<'a> {
+pub struct AssetTrack {
     name: String,
     description: String,
     source: String,
     updates: Vec<AssetUpdate>,
-    asset: &'a Asset<'a>
+    owner: Rc<Asset>,
 }
 
-struct AssetUpdate {
+pub struct AssetUpdate {
     name: String,
     description: String,
-    downloads: Vec<AssetDownload>
+    downloads: Vec<AssetDownload>,
+    owner: Rc<AssetTrack>,
 }
 
-struct AssetDownload {
+pub struct AssetDownload {
     name: String,
     link: String,
+    owner: Rc<AssetUpdate>,
 }

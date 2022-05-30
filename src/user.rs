@@ -1,4 +1,9 @@
-struct User {
+use std::rc::Rc;
+use asset::Asset;
+use crate::asset::Asset;
+
+pub struct BucketUser {
     name: String,
-    assets: Vec<Asset>,
+    identifier: String,
+    assets: Vec<Rc<Asset>>,
 }
