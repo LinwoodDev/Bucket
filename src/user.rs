@@ -15,7 +15,4 @@ impl BucketUser {
     pub fn name(&self) -> &str {
         &self.name
     }
-    pub fn parent(&self) -> &Bucket {
-        &self.parent
-    }
 }
