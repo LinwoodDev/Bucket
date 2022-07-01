@@ -1,6 +1,7 @@
 mod add;
 mod bucket;
 mod yaml;
+mod action;
 
 use clap::{Args, Parser, Subcommand};
 use crate::add::{add_asset, AddAsset};
