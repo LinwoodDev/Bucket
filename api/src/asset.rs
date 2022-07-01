@@ -112,10 +112,6 @@ impl AssetTrack {
         &self.updates
     }
 
-    pub fn owner(&self) -> &Asset {
-        &self.owner
-    }
-
     pub fn add_update(&mut self, update: AssetUpdate) {
         self.updates.push(update);
     }
@@ -146,10 +142,6 @@ impl AssetUpdate {
 
     pub fn downloads(&self) -> &Vec<AssetDownload> {
         &self.downloads
-    }
-
-    pub fn owner(&self) -> &AssetTrack {
-        &self.owner
     }
 
     pub fn add_download(&mut self, download: AssetDownload) {

@@ -1,5 +1,4 @@
 use clap::{Args, Parser, Subcommand};
-use crate::Bucket;
 
 #[derive(Args)]
 struct AddAsset {

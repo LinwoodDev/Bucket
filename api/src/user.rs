@@ -1,7 +1,3 @@
-use std::rc::Rc;
-use crate::asset::Asset;
-use crate::Bucket;
-
 pub struct BucketUser {
     name: String,
 }
