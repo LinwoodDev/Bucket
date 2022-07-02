@@ -28,4 +28,11 @@ impl Bucket {
         let meta = serde_yaml::from_str(&yaml)?;
         Ok(meta)
     }
+
+    pub fn load_asset(&self, name: &str) -> Result<String, Box<dyn Error>> {
+        let asset_path = String::from(&self.path) + "/assets/" + name;
+        let yaml = load_yaml(&asset_path)?;
+        let asset = serde_yaml::from_str(&yaml)?;
+        Ok(asset)
+    }
 }

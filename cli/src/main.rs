@@ -1,12 +1,11 @@
-mod add;
+mod create;
 mod bucket;
 mod yaml;
 mod action;
 
-use clap::{Args, Parser, Subcommand};
-use crate::add::{add_asset, AddAsset};
-
-const VERSION: &str = env!("CARGO_PKG_VERSION");
+use action::ActionCommand;
+use clap::{Parser, Subcommand};
+use crate::create::{run_create, CreateCommand};
 
 
 #[derive(Parser)]
@@ -17,17 +16,22 @@ struct Cli {
     command: Commands,
 }
 
-#[derive(Subcommand)]
+#[derive(Debug, Subcommand)]
 enum Commands {
     /// Adds files to myapp
-    Add(AddAsset),
+    #[clap(subcommand)]
+    Action(ActionCommand),
+    Create(CreateCommand)
 }
 
 fn main() {
     let args = Cli::parse();
     match args.command {
-        Commands::Add(_cmd) => {
-            add_asset();
+        Commands::Create(cmd) => {
+            run_create(cmd);
+        },
+        Commands::Action(cmd) => {
+            println!("{:?}", cmd);
         }
     }
 }

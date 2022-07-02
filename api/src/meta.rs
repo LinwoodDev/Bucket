@@ -8,7 +8,7 @@ pub struct BucketMeta {
     properties: BucketProperties
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Default)]
 pub struct BucketProperties {
     enable_updates: bool,
     edit_updates: bool,
@@ -17,12 +17,12 @@ pub struct BucketProperties {
 }
 
 impl BucketMeta {
-    pub fn new(name: String, description: String, whitelist: Vec<String>, properties: BucketProperties) -> BucketMeta {
+    pub fn new(name: String, description: String, whitelist: Vec<String>) -> BucketMeta {
         BucketMeta {
             name,
             description,
             whitelist,
-            properties
+            properties: BucketProperties::default()
         }
     }
 }
