@@ -1,8 +1,15 @@
-use std::fmt::Error;
+use std::error::Error;
+
+use api::meta::BucketMeta;
+
 use crate::yaml::load_yaml;
 
 struct Bucket {
     path : String,
+}
+
+enum LoadError {
+    MyIoError(std::io::Error)
 }
 
 impl Bucket {
@@ -15,8 +22,10 @@ impl Bucket {
         &self.path
     }
 
-    pub fn load_meta(&self) -> Result<BucketMeta, Error> {
-        let yaml = load_yaml(&self.path + "/meta")?;
-        serde_yaml::from_str(&yaml)?
+    pub fn load_meta(&self) -> Result<BucketMeta, Box<dyn Error>> {
+        let meta_path = String::from(&self.path) + "/meta";
+        let yaml = load_yaml(&meta_path)?;
+        let meta = serde_yaml::from_str(&yaml)?;
+        Ok(meta)
     }
 }

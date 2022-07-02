@@ -1,4 +1,4 @@
-mod asset;
-mod user;
-mod meta;
-mod action;
+pub mod asset;
+pub mod user;
+pub mod meta;
+pub mod action;
