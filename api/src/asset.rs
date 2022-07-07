@@ -3,7 +3,7 @@ use crate::user::BucketUser;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct BucketAsset {
+pub struct Asset {
     name: String,
     description: String,
     source: String,
@@ -11,12 +11,12 @@ pub struct BucketAsset {
     license: String,
     tracks: Vec<AssetTrack>,
     maintainers: Vec<String>,
-    categories: Vec<String>,
 }
 
-impl BucketAsset {
-    pub fn new(name: String, maintainer: String) -> BucketAsset {
-        BucketAsset {
+impl Asset {
+    /// Creates a new [`Asset`].
+    pub(crate) fn new(name: String, maintainer: String) -> Asset {
+        Asset {
             name,
             description: String::new(),
             source: String::new(),
@@ -24,7 +24,6 @@ impl BucketAsset {
             license: String::new(),
             tracks: Vec::new(),
             maintainers: vec![maintainer],
-            categories: vec![]
         }
     }
 
@@ -71,7 +70,7 @@ impl BucketAsset {
     }
 
     pub fn remove_maintainer(&mut self, maintainer: String) {
-        self.maintainers.retain(|u| !u.eq(&maintainer));
+        self.maintainers.retain(|u| u.eq(&maintainer));
     }
 
     pub fn remove_track(&mut self, track: AssetTrack) {
@@ -123,6 +122,7 @@ impl AssetTrack {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+
 pub struct AssetUpdate {
     name: String,
     description: String,
@@ -162,6 +162,7 @@ impl AssetUpdate {
         self.downloads.iter().find(|d| d.name == name)
     }
 }
+
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct AssetDownload {

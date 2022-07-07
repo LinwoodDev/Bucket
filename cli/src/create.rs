@@ -1,29 +1,22 @@
-use clap::{Args, Parser, Subcommand};
+use std::io::Write;
 
-#[derive(Args)]
-pub(crate) struct CreateBucket {
+use api::meta::{BucketMeta, BucketProperties};
+use clap::Args;
+
+#[derive(Debug, Args)]
+pub(crate) struct CreateCommand {
+    #[clap(value_parser)]
     name: String,
-    path: String,
-    template: String,
 }
 
-const REPO_URL: &str = "https://github.com/LinwoodCloud/Bucket/archive/main.zip";
-
-pub(crate) fn create_bucket(create : CreateBucket) {
-    // Download repo and extract template subdirectory to path
-    println!("Downloading repo...");
-    let mut resp = reqwest::get(REPO_URL).expect("Failed to download repo");
-    let mut zip = std::io::BufReader::new(resp.body().as_slice());
-    let mut archive = zip::ZipArchive::new(&mut zip).expect("Failed to read zip");
-    let mut example_path = create.path.clone();
-    std::fs::create_dir_all(&example_path).expect("Failed to create example directory");
-    // Only extract the template subdirectory
-    for i in 0..archive.len() {
-        // Test if the file starts with the template directory
-        if archive.by_index(i).unwrap().name.starts_with(format!("/examples/{}", &create.template)) {
-            let mut file = archive.by_index(i).unwrap();
-            let mut out = std::fs::File::create(example_path.clone() + &file.name).expect("Failed to create file");
-            file.unpack(&mut out).expect("Failed to unpack file");
-        }
-    }
+pub(crate) fn run_create(cmd : CreateCommand) {
+    let meta = BucketMeta::new(cmd.name.clone(), "".to_string(), vec![]);
+    let meta_yaml = serde_yaml::to_string(&meta).unwrap();
+    let meta_path = format!("{}/meta.yaml", cmd.name);
+    // Create cmd.name directory
+    std::fs::create_dir_all(&cmd.name).unwrap();
+    let mut meta_file = std::fs::File::create(&meta_path).unwrap();
+    // Create file with meta data
+    meta_file.write_all(meta_yaml.as_bytes()).unwrap();
+    println!("Created file in {}", &cmd.name);
 }
