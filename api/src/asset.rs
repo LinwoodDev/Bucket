@@ -1,19 +1,22 @@
 use std::rc::Rc;
 use crate::user::BucketUser;
+use serde::{Serialize, Deserialize};
 
-pub struct Asset {
+#[derive(Serialize, Deserialize, Debug)]
+pub struct BucketAsset {
     name: String,
     description: String,
     source: String,
     website: String,
     license: String,
     tracks: Vec<AssetTrack>,
-    maintainers: Vec<Rc<BucketUser>>,
+    maintainers: Vec<String>,
+    categories: Vec<String>,
 }
 
-impl Asset {
-    pub(crate) fn new(name: String, maintainer: Rc<BucketUser>) -> Asset {
-        Asset {
+impl BucketAsset {
+    pub fn new(name: String, maintainer: String) -> BucketAsset {
+        BucketAsset {
             name,
             description: String::new(),
             source: String::new(),
@@ -21,6 +24,7 @@ impl Asset {
             license: String::new(),
             tracks: Vec::new(),
             maintainers: vec![maintainer],
+            categories: vec![]
         }
     }
 
@@ -48,7 +52,7 @@ impl Asset {
         &self.tracks
     }
 
-    pub fn maintainers(&self) -> &Vec<Rc<BucketUser>> {
+    pub fn maintainers(&self) -> &Vec<String> {
         &self.maintainers
     }
 
@@ -59,15 +63,15 @@ impl Asset {
         self.tracks.push(track);
     }
 
-    pub fn add_maintainer(&mut self, maintainer: Rc<BucketUser>) {
-        if self.maintainers.iter().any(|m| m.name() == maintainer.name()) {
+    pub fn add_maintainer(&mut self, maintainer: String) {
+        if self.maintainers.iter().any(|m| m.eq(&maintainer)) {
             return;
         }
         self.maintainers.push(maintainer);
     }
 
-    pub fn remove_maintainer(&mut self, maintainer: Rc<BucketUser>) {
-        self.maintainers.retain(|u| u.name() != maintainer.name());
+    pub fn remove_maintainer(&mut self, maintainer: String) {
+        self.maintainers.retain(|u| !u.eq(&maintainer));
     }
 
     pub fn remove_track(&mut self, track: AssetTrack) {
@@ -79,6 +83,7 @@ impl Asset {
     }
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct AssetTrack {
     name: String,
     description: String,
@@ -117,6 +122,7 @@ impl AssetTrack {
     }
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct AssetUpdate {
     name: String,
     description: String,
@@ -157,6 +163,7 @@ impl AssetUpdate {
     }
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct AssetDownload {
     name: String,
     link: String,
